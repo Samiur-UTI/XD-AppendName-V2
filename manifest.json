@@ -1,0 +1,24 @@
+
+{
+    "name" : "AppendNameV2",
+    "host" : {
+      "app" : "XD",
+      "minVersion" : "21.0"
+    },
+    "id" : "cdea1b11",
+    "icons" : [ {
+      "path" : "images/icon@1x.png",
+      "width" : 24,
+      "height" : 24
+    }, {
+      "path" : "images/icon@2x.png",
+      "width" : 48,
+      "height" : 48
+    } ],
+    "uiEntryPoints" : [ {
+      "type": "panel",
+          "label": "Append Tag",
+          "panelId": "Append"
+    } ],
+    "version" : "0.0.1"
+  }
