@@ -29,7 +29,7 @@ function create() {
             <div class="row break">
                 <label class="row">
                     <span>↕︎</span>
-                    <input type="text" uxp-quiet="true" id="Prename1" placeholder="Enter Prename" />
+                    <input name="prename" type="text" uxp-quiet="true" id="Prename1" placeholder="Enter Prename" />
                 </label>
             </div>
             <footer><button id="ok" type="submit" uxp-variant="cta">Apply</button></footer>
@@ -60,7 +60,7 @@ function addPrenames (){
     }
     function sendPrenameData(){
         return new Promise((resolve, reject) => {
-            let formData = String(document.querySelector("#Prename1").value);
+            var formElement = document.querySelector("form");
             let req = new XMLHttpRequest();
             req.onload = () => {
                 if (req.status === 200) {
@@ -77,8 +77,8 @@ function addPrenames (){
             req.onerror = reject;
             req.onabort = reject;
             req.open("POST", "http://localhost:5000/", true);
-            req.send(JSON.stringify(formData));
-            console.log((formData));
+            req.send(JSON.stringify(new FormData(formElement)));
+            //console.log(());
         });
     }
     form.addEventListener("submit",showPrenames);
