@@ -77,8 +77,8 @@ function addPrenames (){
             req.onerror = reject;
             req.onabort = reject;
             req.open("POST", "http://localhost:5000/", true);
+            req.responseType = 'json';
             req.send(JSON.stringify(formData));
-            console.log((formData));
         });
     }
     form.addEventListener("submit",showPrenames);
