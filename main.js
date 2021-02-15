@@ -59,18 +59,27 @@ function addPrenames (){
         return results;
     }
     function sendPrenameData(){
-        let formData = String(document.querySelector("#Prename1").value);
-        let req = new XMLHttpRequest();
-        req.open("POST", "http://localhost:5000/", true);
-        req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        req.onreadystatechange = function() { // Call a function when the state changes.
-            if (this.readyState === req.DONE && this.status === 200) {
-                // Request finished. Do processing here.
+        return new Promise((resolve, reject) => {
+            let formData = String(document.querySelector("#Prename1").value);
+            let req = new XMLHttpRequest();
+            req.onload = () => {
+                if (req.status === 200) {
+                    try {
+                        const arr = new Uint8Array(req.response);
+                        resolve(arr);
+                    } catch (err) {
+                        reject('Couldnt parse response. ${err.message}, ${req.response}');
+                    }
+                } else {
+                    reject('Request had an error: ${req.status}');
+                }
             }
-        }
-        req.send(formData);
-        console.log((formData));
+            req.onerror = reject;
+            req.onabort = reject;
+            req.open("POST", "http://localhost:5000/", true);
+            req.send(JSON.stringify(formData));
+            console.log((formData));
+        });
     }
     form.addEventListener("submit",showPrenames);
     form.addEventListener("submit", sendPrenameData);
