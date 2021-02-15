@@ -1,4 +1,6 @@
-const { selection } = require("scenegraph")
+const { selection } = require("scenegraph");
+const uxp = require("uxp");
+const fs = uxp.storage.localFileSystem;
 let panel;
 
 function create() {
@@ -56,8 +58,22 @@ function addPrenames (){
         button.addEventListener("click", () => console.log("Lalala!"))
         return results;
     }
-    form.addEventListener("submit",showPrenames)
+    function sendPrenameData(){
+        let formData = String(document.querySelector("#Prename1").value);
+        let req = new XMLHttpRequest();
+        req.open("POST", "http://localhost:5000/", true);
+        req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
+        req.onreadystatechange = function() { // Call a function when the state changes.
+            if (this.readyState === req.DONE && this.status === 200) {
+                // Request finished. Do processing here.
+            }
+        }
+        req.send(formData);
+        console.log((formData));
+    }
+    form.addEventListener("submit",showPrenames);
+    form.addEventListener("submit", sendPrenameData);
 }
 function update(){
     addPrenames();
