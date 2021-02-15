@@ -29,7 +29,7 @@ function create() {
             <div class="row break">
                 <label class="row">
                     <span>↕︎</span>
-                    <input type="text" uxp-quiet="true" id="Prename1" placeholder="Enter Prename" />
+                    <input name="prename" type="text" uxp-quiet="true" id="Prename1" placeholder="Enter Prename" />
                 </label>
             </div>
             <footer><button id="ok" type="submit" uxp-variant="cta">Apply</button></footer>
@@ -58,7 +58,9 @@ function addPrenames (){
             button.addEventListener("click", () => console.log("Lalala!"))
             return results;
         }
-        async function sendPrenameData(url="", data={}){
+        async function sendPrenameData(event, url=""){
+            event.preventDefault();
+            let data = event.target.prename.value;
             const response = await fetch(url, {
                 method: 'POST', 
                 mode: 'cors', 
@@ -69,13 +71,14 @@ function addPrenames (){
                 },
                 redirect: 'follow', 
                 referrerPolicy: 'no-referrer', 
-                body: JSON.stringify(data) 
+                body: JSON.stringify({data}) 
             });
+            console.log(response)
             return response.json();
         }
     
     form.addEventListener("submit",showPrenames);
-    form.addEventListener("submit", sendPrenameData("http://localhost:5000/", preName).then(data => {console.log(data)}));
+    form.addEventListener("submit", (e) => sendPrenameData(e,"http://localhost:5000/"));
 }
 function update(){
     addPrenames();

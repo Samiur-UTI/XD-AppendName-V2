@@ -11,7 +11,7 @@ app.get("/", (req,res) => {
 
 })
 app.post("/", (req,res) =>{
-    let trial = JSON.stringify(req.body);
+    let trial = (req.body);
     //const jsonData = JSON.parse(trial);
     res.send("This is the post route");
     console.log(`this is the received data ${trial}`);
