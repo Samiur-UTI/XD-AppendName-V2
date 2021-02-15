@@ -15,8 +15,6 @@ app.post("/", (req,res) =>{
     //const jsonData = JSON.parse(trial);
     res.send("This is the post route");
     console.log(`this is the received data ${trial}`);
-    
-    
 })
 const CONNECTION_URL = "mongodb+srv://samiurkhan:arpeggio112@cluster0.uqt26.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true}

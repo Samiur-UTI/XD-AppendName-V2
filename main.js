@@ -51,38 +51,31 @@ function addPrenames (){
     let form = document.querySelector("form");
     let preName = String(document.querySelector("#Prename1").value);
     let results = document.querySelector("#result");
-    function showPrenames(){
-        let Html = `<button id="one" type="submit" uxp-variant="cta">${preName}</button>`;
-        results.innerHTML = Html;
-        let button = document.getElementById("one");
-        button.addEventListener("click", () => console.log("Lalala!"))
-        return results;
-    }
-    function sendPrenameData(){
-        return new Promise((resolve, reject) => {
-            let formData = String(document.querySelector("#Prename1").value);
-            let req = new XMLHttpRequest();
-            req.onload = () => {
-                if (req.status === 200) {
-                    try {
-                        const arr = new Uint8Array(req.response);
-                        resolve(arr);
-                    } catch (err) {
-                        reject('Couldnt parse response. ${err.message}, ${req.response}');
-                    }
-                } else {
-                    reject('Request had an error: ${req.status}');
-                }
-            }
-            req.onerror = reject;
-            req.onabort = reject;
-            req.open("POST", "http://localhost:5000/", true);
-            req.responseType = 'json';
-            req.send(JSON.stringify(formData));
-        });
-    }
+        function showPrenames(){
+            let Html = `<button id="one" type="submit" uxp-variant="cta">${preName}</button>`;
+            results.innerHTML = Html;
+            let button = document.getElementById("one");
+            button.addEventListener("click", () => console.log("Lalala!"))
+            return results;
+        }
+        async function sendPrenameData(url="", data={}){
+            const response = await fetch(url, {
+                method: 'POST', 
+                mode: 'cors', 
+                cache: 'no-cache', 
+                credentials: 'same-origin', 
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                redirect: 'follow', 
+                referrerPolicy: 'no-referrer', 
+                body: JSON.stringify(data) 
+            });
+            return response.json();
+        }
+    
     form.addEventListener("submit",showPrenames);
-    form.addEventListener("submit", sendPrenameData);
+    form.addEventListener("submit", sendPrenameData("http://localhost:5000/", preName).then(data => {console.log(data)}));
 }
 function update(){
     addPrenames();
