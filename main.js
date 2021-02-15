@@ -51,36 +51,37 @@ function addPrenames (){
     let form = document.querySelector("form");
     let preName = String(document.querySelector("#Prename1").value);
     let results = document.querySelector("#result");
-    function showPrenames(){
-        let Html = `<button id="one" type="submit" uxp-variant="cta">${preName}</button>`;
-        results.innerHTML = Html;
-        let button = document.getElementById("one");
-        button.addEventListener("click", () => console.log("Lalala!"))
-        return results;
-    }
-    function sendPrenameData(){
-        return new Promise((resolve, reject) => {
-            var formElement = document.querySelector("form");
-            let req = new XMLHttpRequest();
-            req.onload = () => {
-                if (req.status === 200) {
-                    try {
-                        const arr = new Uint8Array(req.response);
-                        resolve(arr);
-                    } catch (err) {
-                        reject('Couldnt parse response. ${err.message}, ${req.response}');
+        function showPrenames(){
+            let Html = `<button id="one" type="submit" uxp-variant="cta">${preName}</button>`;
+            results.innerHTML = Html;
+            let button = document.getElementById("one");
+            button.addEventListener("click", () => console.log("Lalala!"))
+            return results;
+        }
+        function sendPrenameData(){
+            return new Promise((resolve, reject) => {
+                var formElement = document.querySelector("form");
+                let data = new FormData(formElement);
+                let req = new XMLHttpRequest();
+                req.onload = () => {
+                    if (req.status === 200) {
+                        try {
+                            const arr = new Uint8Array(req.response);
+                            resolve(arr);
+                        } catch (err) {
+                            reject('Couldnt parse response. ${err.message}, ${req.response}');
+                        }
+                    } else {
+                        reject('Request had an error: ${req.status}');
                     }
-                } else {
-                    reject('Request had an error: ${req.status}');
                 }
-            }
-            req.onerror = reject;
-            req.onabort = reject;
-            req.open("POST", "http://localhost:5000/", true);
-            req.send(JSON.stringify(new FormData(formElement)));
-            //console.log(());
-        });
-    }
+                req.onerror = reject;
+                req.onabort = reject;
+                req.open("POST", "http://localhost:5000/", true);
+                req.send(JSON.stringify({data}));
+                console.log((data));
+            });
+        }
     form.addEventListener("submit",showPrenames);
     form.addEventListener("submit", sendPrenameData);
 }
