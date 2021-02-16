@@ -25,7 +25,7 @@ function create() {
                 display: none;
             }
         </style>
-        <form method="dialog" id="main">
+        <form method="post" id="main">
             <div class="row break">
                 <label class="row">
                     <span>↕︎</span>
@@ -60,14 +60,15 @@ function addPrenames (){
         }
         function sendPrenameData(){
             return new Promise((resolve, reject) => {
-                var formElement = document.querySelector("form");
-                let data = new FormData(formElement);
+                //var formElement = document.querySelector("form");
+                //let data = new FormData(formElement);
                 let req = new XMLHttpRequest();
                 req.onload = () => {
                     if (req.status === 200) {
                         try {
-                            const arr = new Uint8Array(req.response);
+                            const arr = (req.response);
                             resolve(arr);
+                            console.log(arr)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
                         }
@@ -77,9 +78,9 @@ function addPrenames (){
                 }
                 req.onerror = reject;
                 req.onabort = reject;
-                req.open("POST", "http://localhost:5000/", true);
-                req.send(JSON.stringify({data}));
-                console.log((data));
+                req.open("GET", "http://localhost:5000/prename", true);
+                req.send();
+                //console.log((data));
             });
         }
     form.addEventListener("submit",showPrenames);
