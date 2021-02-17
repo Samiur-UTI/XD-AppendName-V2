@@ -16,8 +16,15 @@ app.post("/", (req,res) =>{
     let data = req.body;
     appendedName.create(data).then(res.redirect("/")).catch(err => console.log(err));
 })
-app.get("/prename", async (req,res) => {
-    res.send("This is the real shit to deal with");
+app.get("/prename",  (req,res) => {
+    appendedName.find({}, async function(err, allPrenames){
+        if(err){
+            console.log(err)
+        } else {
+            res.send({prenames: allPrenames});
+        }
+    } )
+    //res.send("This is the real shit to deal with");
     console.log("Request successfull!")
 })
 const CONNECTION_URL = "mongodb+srv://samiurkhan:arpeggio112@cluster0.uqt26.mongodb.net/test?retryWrites=true&w=majority";

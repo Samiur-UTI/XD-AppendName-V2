@@ -66,7 +66,7 @@ function addPrenames (){
                 req.onload = () => {
                     if (req.status === 200) {
                         try {
-                            const arr = (req.response);
+                            const arr = JSON.parse(req.response);
                             resolve(arr);
                             console.log(arr)
                         } catch (err) {
