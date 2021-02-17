@@ -1,5 +1,6 @@
 const express =  require("express");
 const mongoose = require("mongoose");
+const appendedName = require("./model/prenames");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -12,11 +13,8 @@ app.get("/", (req,res) => {
 
 })
 app.post("/", (req,res) =>{
-    let {prename} = req.body;
-    //let trial = JSON.stringify(req.body);
-    //let {prename} = trial;
-    res.send("This is the post route");
-    console.log(prename);
+    let data = req.body;
+    appendedName.create(data).then(res.redirect("/")).catch(err => console.log(err));
 })
 app.get("/prename", async (req,res) => {
     res.send("This is the real shit to deal with");
