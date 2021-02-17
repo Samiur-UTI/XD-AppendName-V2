@@ -1,7 +1,6 @@
 const express =  require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const xmlParser = require("xml2js").parseString;
 const PORT = process.env.PORT || 5000;
 const app = express();
 app.set("view engine", "ejs");
@@ -13,12 +12,11 @@ app.get("/", (req,res) => {
 
 })
 app.post("/", (req,res) =>{
-    let trial = JSON.stringify(req.body);
-    //const jsonData = JSON.parse(trial);
+    let {prename} = req.body;
+    //let trial = JSON.stringify(req.body);
+    //let {prename} = trial;
     res.send("This is the post route");
-    console.log(`this is the received data ${trial}`);
-    
-    
+    console.log(prename);
 })
 app.get("/prename", async (req,res) => {
     res.send("This is the real shit to deal with");
