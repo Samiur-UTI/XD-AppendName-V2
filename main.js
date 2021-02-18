@@ -59,6 +59,7 @@ function addPrenames (){
                             const arr = JSON.parse(req.response);
                             resolve(arr);
                             data = arr;
+                            sendPrenameData();
                             //console.log(arr)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
@@ -71,9 +72,11 @@ function addPrenames (){
                 req.onabort = reject;
                 req.open("GET", "http://localhost:5000/prename", true);
                 req.send();
-                console.log(data);
-                //console.log((data));
+                //console.log(data);
             });
+        }
+        function sendPrenameData(){
+            console.log("SamaVuda");
         }
     button.addEventListener("click", getPrenameData);
     
