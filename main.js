@@ -23,8 +23,11 @@ function create() {
                 display: none;
             }
         </style>
-        <div id="click">
+        <div class="container">
             <button id="ok" type="submit" uxp-variant="cta">Get Prenames!</button>
+        </div>
+        <div id="display">
+            <li>The prenames will be displayed below:</li>
         </div>
         `
     panel = document.createElement("div");
@@ -59,7 +62,7 @@ function addPrenames (){
                             const arr = JSON.parse(req.response);
                             resolve(arr);
                             data = arr;
-                            sendPrenameData(data);
+                            showPrenameData(data);
                             //console.log(data)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
@@ -75,9 +78,15 @@ function addPrenames (){
                 //console.log(data);
             });
         }
-        const sendPrenameData = data => {
+        const showPrenameData = data => {
             const {prenames} = data;
-            console.log(prenames)
+            prenames.forEach(element => {
+                let text = element.prename;
+                let display = document.getElementById("display");
+                let Html = `<li><button id="one" type="submit" uxp-variant="cta">${text}</button></li>`;
+                //display.innerHTML = Html;
+                display.insertAdjacentHTML("afterend",Html);
+            });
         }
     button.addEventListener("click", getPrenameData);
     
