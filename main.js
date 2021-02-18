@@ -59,8 +59,8 @@ function addPrenames (){
                             const arr = JSON.parse(req.response);
                             resolve(arr);
                             data = arr;
-                            sendPrenameData();
-                            //console.log(arr)
+                            sendPrenameData(data);
+                            //console.log(data)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
                         }
@@ -75,8 +75,9 @@ function addPrenames (){
                 //console.log(data);
             });
         }
-        function sendPrenameData(){
-            console.log("SamaVuda");
+        const sendPrenameData = data => {
+            const {prenames} = data;
+            console.log(prenames)
         }
     button.addEventListener("click", getPrenameData);
     
