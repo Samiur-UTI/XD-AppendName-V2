@@ -41,7 +41,8 @@ function show(event) {
 }
 function addPrenames (){
     let data;
-    let button = document.querySelector("button");
+    let button = document.querySelector("#ok");
+    let display = document.getElementById("display");
     // let form = document.querySelector("form");
     // let preName = String(document.querySelector("#Prename1").value);
     
@@ -63,6 +64,7 @@ function addPrenames (){
                             resolve(arr);
                             data = arr;
                             showPrenameData(data);
+                            //appendName(data);
                             //console.log(data)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
@@ -82,14 +84,16 @@ function addPrenames (){
             const {prenames} = data;
             prenames.forEach(element => {
                 let text = element.prename;
-                let display = document.getElementById("display");
-                let Html = `<li><button id="one" type="submit" uxp-variant="cta">${text}</button></li>`;
-                //display.innerHTML = Html;
+                let Html = `<li><button class="pain" type="submit" uxp-variant="cta">${text}</button></li>`;
                 display.insertAdjacentHTML("afterend",Html);
+                let buttonElement = document.querySelector(".pain");
+                buttonElement.addEventListener("click", () => console.log(text));
             });
         }
+        const appendName = () => {
+           console.log("lalala")
+        }
     button.addEventListener("click", getPrenameData);
-    
 }
 function update(){
     addPrenames();
