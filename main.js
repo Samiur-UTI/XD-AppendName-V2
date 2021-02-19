@@ -43,17 +43,6 @@ function addPrenames (){
     let data;
     let button = document.querySelector("#ok");
     let display = document.getElementById("display");
-    // let form = document.querySelector("form");
-    // let preName = String(document.querySelector("#Prename1").value);
-    
-    // let results = document.querySelector("#result");
-    //     function showPrenames(){
-    //         let Html = `<button id="one" type="submit" uxp-variant="cta">${preName}</button>`;
-    //         results.innerHTML = Html;
-    //         let button = document.getElementById("one");
-    //         button.addEventListener("click", () => console.log("Lalala!"))
-    //         return results;
-    //     }
         function getPrenameData(){
             return new Promise((resolve, reject) => {
                 let req = new XMLHttpRequest();
@@ -64,8 +53,6 @@ function addPrenames (){
                             resolve(arr);
                             data = arr;
                             showPrenameData(data);
-                            //appendName(data);
-                            //console.log(data)
                         } catch (err) {
                             reject('Couldnt parse response. ${err.message}, ${req.response}');
                         }
@@ -77,7 +64,6 @@ function addPrenames (){
                 req.onabort = reject;
                 req.open("GET", "http://localhost:5000/prename", true);
                 req.send();
-                //console.log(data);
             });
         }
         const showPrenameData = data => {
@@ -87,11 +73,19 @@ function addPrenames (){
                 let Html = `<li><button class="pain" type="submit" uxp-variant="cta">${text}</button></li>`;
                 display.insertAdjacentHTML("afterend",Html);
                 let buttonElement = document.querySelector(".pain");
-                buttonElement.addEventListener("click", () => console.log(text));
+                buttonElement.addEventListener("click", () => appendName(text));
             });
         }
-        const appendName = () => {
-           console.log("lalala")
+        const appendName = data => {
+            const { editDocument } = require("application");
+            editDocument({ editLabel: "Append Name for Item1" },  function workerFunction(selection){
+                if(selection.items.length !== 0 && selection.items.length === 1){
+                    selection.itemsIncludingLocked.forEach( node => {
+                        let previousName = node.name;
+                        node.name = data + " " + previousName;
+                    })
+                }
+            })
         }
     button.addEventListener("click", getPrenameData);
 }
